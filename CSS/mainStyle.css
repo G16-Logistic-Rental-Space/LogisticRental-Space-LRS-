@@ -1,0 +1,405 @@
+       body {
+
+
+         font-family: Arial, sans-serif;
+         display: flex;
+         flex-direction: column;
+         justify-content: left;
+         align-items: left;
+         text-align: left;
+         position: relative;
+
+       }
+
+       .mainContainer,
+       .container {
+         min-height: 100vh;
+         width: 100%;
+         position: relative;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+       }
+
+       .mainContainer::before,
+       .container::before {
+         position: absolute;
+         content: "";
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: url("../Photo/truck.jpg") center/cover no-repeat;
+         opacity: 0.6;
+         z-index: -1;
+       }
+
+       .container::after {
+         position: absolute;
+         content: "";
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: rgba(0, 0, 0, 0.28);
+         /* درجة خفيفة ومناسبة */
+         z-index: -1;
+       }
+
+       .mainContainer::after {
+         position: absolute;
+         content: "";
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: rgba(0, 0, 0, 0.18);
+         /* درجة خفيفة ومناسبة */
+         z-index: -1;
+       }
+
+       .buttons {
+         align-items: center;
+         display: flex;
+         gap: 35px;
+       }
+
+       .LoginCard,
+       .SignupCard {
+         width: 35%;
+         height: 80%;
+         color: black;
+         margin-top: 5%;
+         border-radius: 10px;
+         padding: 12px 40px;
+         border: 2px solid rgb(255, 255, 255, 0.2);
+         backdrop-filter: blur(33px);
+         box-shadow: 0 0 10px;
+
+       }
+
+       #MainTitle {
+
+         margin-bottom: 90px;
+         font-size: 2.8em;
+         -webkit-box-reflect: below -0px linear-gradient(transparent, rgb(200, 200, 200, 0.4));
+
+
+       }
+
+       .content {
+         width: 50%;
+         max-width: 550px;
+         height: 80%;
+         background: rgba(44, 43, 43, 0.31);
+         border: 2px solid rgb(255, 255, 255, 0.2);
+         padding: 30px;
+         border-radius: 15px;
+         backdrop-filter: blur(5px);
+         text-align: center;
+         color: #fff;
+         margin: auto;
+         margin-top: 5%;
+
+       }
+
+       .fade {
+         opacity: 0;
+         animation: fadeIn 2s forwards ease-in-out;
+       }
+
+       @keyframes fadeIn {
+         to {
+           opacity: 1;
+         }
+       }
+
+       #startNow {
+         width: 300px;
+         height: 50px;
+         margin: auto;
+       }
+
+       .SignupCard {
+         gap: 15px 20px;
+         grid-template-columns: 150px 1fr;
+         margin-bottom: 2%;
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+       }
+
+       .LoginCard .login {
+         font-size: 30px;
+         text-align: left;
+       }
+
+       .SignupCard .signup {
+         font-size: 33px;
+         text-align: center;
+       }
+
+       .LoginCard .input-box {
+         height: 30px;
+       }
+
+
+       input {
+         height: 30px;
+         width: 100%;
+         padding: 10px;
+         border: 1px solid #ccc;
+         background: rgba(255, 255, 255, 0.1);
+         color: white;
+         outline: none;
+         margin: 20px 0;
+
+       }
+
+       label {
+         font-size: 18px;
+         font-weight: bold;
+         cursor: pointer;
+         
+       }
+
+
+       input::placeholder {
+         color: rgb(48, 45, 45);
+       }
+
+       input:focus {
+         border-bottom: 2px solid rgb(15, 15, 15);
+       }
+
+       .RegisterLink {
+         font-size: 14.5px;
+         color: black;
+         font-weight: bold;
+         text-align: center;
+         margin-top: 20px;
+
+       }
+
+       .RegisterLink a {
+         text-decoration: none;
+         color: black;
+         font-weight: bold;
+       }
+
+       .RegisterLink a:hover {
+
+         color: white
+       }
+
+       .bi-person-circle {
+         font-size: 90px;
+         color: black;
+         margin-left: 40%;
+         display: block;
+         margin-top: -50px;
+
+       }
+
+       .btn {
+         width: 100%;
+         height: 45px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         background-color: rgb(15, 15, 15);
+         border: none;
+         color: white;
+         font-weight: 600;
+         cursor: pointer;
+         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+         position: relative;
+         overflow: hidden;
+         transition-duration: .3s;
+       }
+
+
+       .btn::before {
+         width: 100%;
+         height: 130px;
+         position: absolute;
+         content: "";
+         background-color: white;
+         border-radius: 50%;
+         left: -100%;
+         top: 0;
+         transition-duration: .3s;
+         mix-blend-mode: difference;
+       }
+
+       .btn:hover::before {
+         transition-duration: .3s;
+         transform: translate(100%, -50%);
+         border-radius: 0;
+       }
+
+       .btn:active {
+         transform: translate(5px, 5px);
+         transition-duration: .3s;
+       }
+
+       .radio-group {
+         margin-bottom: 10px;
+         padding: 0px;
+       }
+
+       .radio-container {
+
+         align-items: center;
+         margin-bottom: 10px;
+         font-size: 18px;
+         cursor: pointer;
+       }
+
+       .radio-container input[type="radio"] {
+         margin-right: 10px;
+         width: 18px;
+         height: 16px;
+
+       }
+
+       .btn {
+         margin-left: 2%;
+
+
+       }
+
+       /* login error message style */
+       #usernameError {
+         color: #7c0000e2;
+         font-size: 16px;
+         margin-top: -4px;
+         margin-left: -1px;
+         display: none;
+         position: relative;
+       }
+
+       .input-error {
+         color: #7c0000e2;
+         border-color: #7c0000e2 !important;
+       }
+
+       .input-error::placeholder {
+         color: #7c0000e2;
+       }
+
+       #passwordError {
+         color: #7c0000e2;
+         font-size: 16px;
+         margin-top: -4px;
+         margin-left: -1;
+         display: none;
+       }
+
+       #username.input-error,
+       #password.input-error {
+         border-color: #a80404e2 !important;
+       }
+
+       #username.input-success,
+       #password.input-success {
+         border-color: #176717 !important;
+       }
+
+       #username.input-error::placeholder,
+       #password.input-error::placeholder {
+         color: #a80404e2;
+       }
+
+       #username.input-success::placeholder,
+       #password.input-success::placeholder {
+         color: #176717;
+       }
+
+
+      
+       #loginSuccess {
+         display: none;
+         margin-top: 6px;
+         margin-bottom: 4px;
+         margin-left: -1px;
+         font-size: 17px;
+         font-weight: 700;
+         color: #0c5d0c;
+         text-align: left;
+         letter-spacing: 0.3px;
+       }
+
+       #signupSuccess {
+         display: none;
+         margin-top: 6px;
+         margin-bottom: 4px;
+         margin-left: -1px;
+         font-size: 17px;
+         font-weight: 700;
+         color: #0c5d0c;
+         text-align: left;
+         letter-spacing: 0.3px;
+       }
+
+
+       #loginSuccess .bi,
+       #signupSuccess .bi {
+         margin-right: 6px;
+         font-size: 20px;
+         vertical-align: -2px;
+       }
+
+
+
+       /* sing up error message style*/
+       #fullnameError,
+       #usernameError,
+       #passwordError,
+       #confirmError,
+       #mobileError,
+       #userTypeError {
+         color: #a80404e2;
+         font-size: 16px;
+         margin-top: -4px;
+         margin-left: -1px;
+         display: none;
+       }
+
+
+
+       .input-error {
+         border-color: #a80404e2 !important;
+       }
+
+       .input-success {
+         border-color: #176717 !important;
+       }
+
+
+       .error-message {
+         color: #a80404e2;
+         font-size: 16px;
+         margin-top: -4px;
+         display: none;
+       }
+
+
+       .success-message {
+         color: #176717;
+         font-size: 16px;
+         margin-top: 5px;
+         display: none;
+         font-weight: bold;
+       }
+
+
+       .input-error {
+         border-color: #a80404e2 !important;
+       }
+
+
+       .input-success {
+         border-color: #176717 !important;
+       }
+

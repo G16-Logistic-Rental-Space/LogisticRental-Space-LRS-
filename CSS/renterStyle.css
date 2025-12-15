@@ -1,0 +1,422 @@
+:root {
+    --main-blue: #11426B;
+    --dark-blue: #0B2236;
+    --light-blue: #D7F5FF;
+    --mint: #43E7D4;
+    --mint-light: #8AFFDA;
+    --orange: #F97316;
+    --purple-light: #DCC1FF;
+    --beige: #FFEEE2;
+}
+
+
+.dynamic-section{
+    opacity: 0;
+    transform: translate(30px);
+    transition:opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.dynamic-section.show{
+    opacity: 1;
+    transform: translateY(0);
+}
+body{
+    background-color: #EDE5E4;
+     font-family: Arial, sans-serif;     
+}
+nav{
+    background-color:var(--main-blue);
+    width: 13%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    padding-top: 70px;
+    gap: 30px;
+    text-align: left;
+    overflow-x: hidden;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    transition: 0.5s;    
+}
+nav a{
+    padding: 8px ;
+    text-decoration: none;
+    display: block;
+    color: white;
+}
+nav a:hover{
+    color: var(--mint-light);
+}
+.renterForm{
+    background-color: #547B9C;
+    height: 100%;
+    width: 60%;
+    min-width: 600px;
+    margin: auto;
+    margin-left: calc(12% + 100px);
+    display: flex;
+    position: relative;
+    padding-top: 20px;
+    border-radius: 10px;   
+}
+
+.form-top-right-image{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+   
+}
+.form-top-right-image img {
+    width: 290px;   
+    height: auto;
+}
+.form-fields{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: auto; 
+    width: 80%;     
+}
+.form-fields input:focus  {
+    border: 2px solid var(--main-blue); 
+    height: 35px; 
+    outline: none; 
+    box-shadow: 0 0 5px var(--main-blue); 
+}
+.oneBlock{
+    display: flex;
+    flex-direction: column;
+    padding-top:5px;
+    gap: 6px;     
+}
+.dimention{
+    display: flex;
+    width:61% ;
+    gap: 5px;
+}
+.form-fields input,
+ select,
+ button {
+   border: none;
+   width:60%;
+   height: 30px;   
+   background: white;
+    color: var(--main-blue);
+    font-size: 14px;
+    background-color: var(--light-blue);
+    border-radius: 6px ;
+    font-weight: 530;
+}
+select{background-color: var(--dark-blue); color:white;}
+option{background-color: white; color:var(--main-blue) ;}
+button{  
+    text-align: left;
+}
+input{ 
+     background-color: var(--light-blue);
+     margin-bottom: 8px;  
+}
+input::placeholder{
+    font-weight: 530;
+    color:var(--main-blue);
+    font-size: 14px;
+}
+.dropdown{
+    position: relative;
+    
+}
+.dropdown-content {
+  display: none;
+  position: relative;
+  background-color: white;
+  min-width: 100px;
+  width: 30%;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1;
+  font-size: 8px;  
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+   
+}
+
+.dropdown-content label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+  color:var(--main-blue);
+  font-size: 13px; 
+}
+.dropdown-content input[type="checkbox"] {
+    margin: 3;
+    width: 18px;
+    height: 18px;
+}
+.formsTitle { 
+    color:#0B2236;
+    font-weight: bolder;
+    font-size: 24px;
+}
+label{
+    color:white;
+  
+}
+.add{
+    margin-bottom: 20px;
+    width: 20%;
+    text-align: center;
+     background-color: var(--mint);    
+}
+.add:hover{
+    background-color: var(--dark-blue);
+    color: white;   
+}
+.formsTitle{
+    padding-bottom: 14px;
+    padding-top: 10px;
+}
+main{
+    margin-top: 5%;
+    margin-left: 13%;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;     
+}
+.leftSide {
+    width: 50%;
+     margin-left: calc(5% + 10px);
+    
+}
+#Container{
+    display: flex;
+    gap: 30px;    
+}
+.containerForListingNumber,
+.containerForBookingNumber{
+     background-color: white;
+    width: 35%;
+   border-radius: 10px;
+   padding: 20px;
+   text-align: center;
+}
+#TrustContainer{
+    width: 82%;
+    background-color: var(--dark-blue);
+    padding: 25px;
+   border-radius: 15px;
+   margin-top: 25px;
+    gap: 10px;
+   color: white;
+   position: relative;
+   font-size: 14px;
+
+}
+#TrustContainer h3{
+    color:var(--mint-light) ;
+}
+.bar-link{
+    background-color: #1ABC9C;
+    border-radius: 8px;
+}
+
+#TrustContainer img{
+    width: 40%;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+.note{
+     background-color: white;
+     padding: 5px;
+     border-radius: 10px;
+     width: 90%;
+     font-size: 15px;
+     gap: 15px; 
+     display: flex;
+     text-align: center;
+     height: 45px;
+     
+}
+.note i{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+     margin-left: 10px;
+    margin-top: 7px;
+    background-color:var(--purple-light);
+   justify-content: center;
+   align-items: center;  
+   display: flex;
+    
+}
+.note p{
+    padding-top: 5px;
+}
+#notifications{
+justify-content: space-between;
+display: flex;
+flex-direction: column;
+gap: 10px;
+margin-top: 27px;
+
+}
+.bi-person-circle{   
+    background-color: var(--mint-light);
+    border-radius: 20px;
+}
+
+.rightSide {
+    width: 45%;
+    background-color:white ;
+    border-radius: 10px;
+    margin-left: 30px;
+}
+.rightSide h3{
+    margin-left: 10px;
+    font-size: 22px;
+}
+.firstUpcomingCard{
+    background-color: var(--beige);
+}
+#upcomingContainer{
+    max-height: 600px;
+    padding:20px;
+    overflow-y: auto;
+    margin-right: 10px;
+    padding: 15px;
+   
+}
+.firstUpcomingCard i ,.secondUpcomingCard i{
+    width: 43px;
+    height: 43px;
+    border-radius: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: #555;
+    margin-left: 10px;
+    margin-top: 7px;
+}
+.firstUpcomingCard i{
+    background-color: var(--orange);
+}
+.secondUpcomingCard{
+    background-color: #DFFDFF;
+}
+.secondUpcomingCard i{
+    background-color: var(--mint);
+}
+.firstUpcomingCard,.secondUpcomingCard{
+ display: flex;
+ gap: 15px;
+align-items: flex-start;
+border-radius: 12px;
+    margin-bottom: 18px;
+}
+.cardInfo h4 {
+    margin: 10px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+}
+.cardInfo p{
+     font-size: 10px;
+     margin: 10px;
+}
+header {
+    position: fixed;
+    top:0;
+    left: 14%;
+    width: 83%;
+    height: 70px;
+    padding: 1px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: top 0.3s;    
+}
+.header-right {
+    display: flex;
+    align-items: center;   
+}
+.header-left {
+      margin-left: calc(4% + 5px);
+}
+.icons i {
+    font-size: 22px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.welcomeSection {
+    display: flex;
+    align-items: center;    
+}
+.welcome {
+    font-size: 22px;
+    font-weight: 600;
+    color: black;
+}
+
+
+
+.input-error {
+  border: 2px solid #a80404e2;
+}
+
+.input-success {
+  border: 2px solid #176717;
+}
+
+.error-message {
+  color: #a80404e2;
+  font-size: 14px;
+  display: none;
+  margin-top: -1px;      
+  margin-bottom: 10px;  
+  line-height: 1.3;
+}
+
+
+/* Floating toast-style success message for the form */
+.success-message {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background-color: #176717; 
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+}
+
+
+.dim-field {
+  display: flex;
+  flex-direction: column;  
+  flex: 1;
+  
+}
+
+.dim-field input {
+  width: 100%;
+}
+
+
+.dimention .error-message {
+  font-size: 12px;
+  margin-top: 2px;        
+  margin-bottom: 4px;
+}
