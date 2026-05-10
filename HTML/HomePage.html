@@ -1,31 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" href="../CSS/mainStyle.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HomePage</title>
 
-    </head>
-<body>
-     <div class="mainContainer">
-   
-     <div class="content">
-     <h1 class="fade"id="MainTitle">Logistical Rental Space</h1>
-     <p>Logistical Rental Space (LRS) connects truck owners with individuals and small businesses, helping them rent unused truck space easily and affordably. With our smart and eco-friendly platform, transportation becomes more efficient, cost-saving, and reliable for everyone.</p>
-     <div class="buttons">
-    <button class="btn"  onclick="LoginNavigate()">Log in</button>
-     <button class="btn"  onclick="SignUpNavigate()">Sign up</button>
-   </div>
+    <link rel="stylesheet" href="/CSS/mainStyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+  <body>
+    <div class="mainContainer">
+      <div class="page-overlay"></div>
+
+      <div class="content fade">
+        <div class="badge-box">
+          <i class="bi bi-truck"></i>
+          <span>Smart Logistics Platform</span>
+        </div>
+
+        <h1 id="MainTitle">LRS</h1>
+        <h2 class="subtitle">Logistical Rental Space</h2>
+
+        <p class="description">
+          Logistical Rental Space (LRS) connects truck owners with individuals
+          and small businesses, helping them rent unused truck space easily and
+          affordably. With our smart and eco-friendly platform, transportation
+          becomes more efficient, cost-saving, and reliable for everyone.
+        </p>
+
+        <div class="buttons">
+          <button class="btn primary-btn" onclick="LoginNavigate()">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Log in</span>
+          </button>
+
+          <button class="btn secondary-btn" onclick="SignUpNavigate()">
+            <i class="bi bi-person-plus"></i>
+            <span>Sign up</span>
+          </button>
+        </div>
+      </div>
     </div>
-</div>
-</body>
-<script>
-    function LoginNavigate(){
-        window.location.href = "Login.html";
-    }
-      function SignUpNavigate(){
-        window.location.href = "signup.html";
-    }
-</script>
+
+    <script>
+      function LoginNavigate() {
+        window.location.href = "/HTML/Login.html";
+      }
+
+      function SignUpNavigate() {
+        window.location.href = "/HTML/signup.html";
+      }
+    </script>
+  </body>
 </html>

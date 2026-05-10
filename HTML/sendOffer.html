@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Send Offer</title>
+    <link rel="stylesheet" href="../CSS/sendOffer.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <main class="offer-page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="goBack()">
+          <i class="bi bi-arrow-left"></i>
+          Back
+        </button>
+      </div>
+
+      <section class="offer-shell">
+        <div class="offer-card">
+          <div class="offer-badge">Offer</div>
+          <h1>Send Offer</h1>
+          <p class="offer-subtitle">
+            Fill in your truck details and send your offer for this request.
+          </p>
+
+          <form method="post" id="offerForm" novalidate>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  placeholder="Enter your full name"
+                  required
+                />
+                <div class="error-message" id="nameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="truckID">Truck ID</label>
+                <input
+                  type="text"
+                  id="truckID"
+                  placeholder="Enter truck ID"
+                  required
+                />
+                <div class="error-message" id="idError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="truck_type">Truck Type</label>
+                <select id="truck_type" required>
+                  <option value="">Select truck type</option>
+                  <option>Refrigerated truck</option>
+                  <option>Box truck</option>
+                  <option>Flatbed truck</option>
+                  <option>Pickup Truck</option>
+                  <option>Van / Mini Truck</option>
+                  <option>Semi-Trailer / Tractor-Trailer</option>
+                  <option>Container Truck</option>
+                </select>
+                <div class="error-message" id="typeError"></div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="departureDate">Truck Departure Date</label>
+                <input type="date" id="departureDate" required />
+                <div class="error-message" id="dateError"></div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="send-btn">
+                <i class="bi bi-send-check"></i>
+                Send Offer
+              </button>
+            </div>
+
+            <div id="formStatus" class="form-status"></div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="../JavaScript/offering.js"></script>
+    <script>
+      window.addEventListener("load", () => {
+        const offerOwnerId = localStorage.getItem("offer_ownerId");
+        const requestId = localStorage.getItem("offer_requestId");
+
+        if (!offerOwnerId || !requestId) {
+          alert("No request selected");
+        }
+      });
+
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
+</html>

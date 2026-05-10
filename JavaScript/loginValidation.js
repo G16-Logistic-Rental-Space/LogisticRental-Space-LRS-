@@ -11,7 +11,7 @@ function showFieldError(id, message) {
   setTimeout(() => {
     box.style.display = "none";
     input.classList.remove("input-error");
-  }, 3000);
+  }, 3001);
 }
 
 function showLoginSuccess(message) {
@@ -21,7 +21,7 @@ function showLoginSuccess(message) {
 
   setTimeout(() => {
     box.style.display = "none";
-  }, 3000);
+  }, 3001);
 }
 
 function loginUser(event) {
@@ -39,7 +39,7 @@ function loginUser(event) {
     return;
   }
 
-  fetch("http://localhost:3000/login", {
+  fetch("http://localhost:3001/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -58,7 +58,7 @@ function loginUser(event) {
       localStorage.setItem("user_id", data.user_id);
       localStorage.setItem("username", data.username);
       localStorage.setItem("user_type", data.user_type);
-
+console.log("LOGIN RESPONSE:", data);
       document.getElementById("username").classList.add("input-success");
       document.getElementById("password").classList.add("input-success");
       showLoginSuccess("You have logged in successfully");

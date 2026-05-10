@@ -3,7 +3,7 @@ class User {
   fullname;
   username;
   user_type;
-  apiBase = "http://localhost:3000";
+  apiBase = "http://localhost:3001";
 
   constructor(id, fullname, username, user_type) {
     this.id = id;
@@ -32,19 +32,19 @@ class User {
     if (input) {
       input.classList.remove("input-success");
       input.classList.add("input-error");
-      setTimeout(() => input.classList.remove("input-error"), 3000);
+      setTimeout(() => input.classList.remove("input-error"), 3001);
     }
 
     setTimeout(() => {
       if (box) box.style.display = "none";
-    }, 3000);
+    }, 3001);
   }
 
   showSuccess(id, message) {
     const box = document.getElementById(id);
     box.innerHTML = `<i class="bi bi-check-circle"></i> ${message}`;
     box.style.display = "block";
-    setTimeout(() => (box.style.display = "none"), 3000);
+    setTimeout(() => (box.style.display = "none"), 3001);
   }
 
   validatePassword(password) {

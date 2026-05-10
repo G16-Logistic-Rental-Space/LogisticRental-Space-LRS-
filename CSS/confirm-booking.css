@@ -1,0 +1,616 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: url("../Photo/truck.jpg") center/cover no-repeat fixed;
+  min-height: 100vh;
+  position: relative;
+  color: #102538;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.62);
+  z-index: -1;
+}
+
+.confirm-page {
+  min-height: 100vh;
+  padding: 28px 28px 40px;
+}
+
+.top-back-bar {
+  max-width: 1250px;
+  margin: 0 auto 18px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(11, 34, 54, 0.9);
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(11, 34, 54, 0.18);
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: translateY(-2px);
+  background: #14315c;
+}
+
+.confirm-main {
+  max-width: 1250px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(420px, 620px) minmax(320px, 420px);
+  gap: 28px;
+  align-items: start;
+}
+
+.confirm-container {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 28px;
+  padding: 30px;
+  box-shadow: 0 24px 50px rgba(16, 37, 56, 0.14);
+  backdrop-filter: blur(4px);
+}
+
+.booking-header {
+  margin-bottom: 20px;
+}
+
+.booking-badge {
+  display: inline-block;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(26, 188, 156, 0.14);
+  color: #0b8d78;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.confirm-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0b2236;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.confirm-subtitle {
+  color: #5c6f7f;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.booking-summary-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.summary-item {
+  background: #f6f9fb;
+  border: 1px solid rgba(11, 34, 54, 0.06);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.summary-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #728190;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.summary-value {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #102538;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b2236;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.input-group input {
+  flex: 1;
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #d5dde5;
+  padding: 0 16px;
+  outline: none;
+  font-size: 15px;
+  transition: 0.2s ease;
+  background: #fff;
+}
+
+.input-group input:focus {
+  border-color: #1b3f79;
+  box-shadow: 0 0 0 4px rgba(27, 63, 121, 0.08);
+}
+
+.calc-btn {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #2aba75, #1f9e60);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  box-shadow: 0 10px 20px rgba(42, 186, 117, 0.18);
+  transition: 0.2s ease;
+}
+
+.calc-btn:hover {
+  transform: translateY(-1px);
+}
+
+.error-message {
+  color: #d12b2b;
+  font-size: 13px;
+  margin-top: 7px;
+  min-height: 18px;
+}
+
+.price-display {
+  min-height: 54px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #eff5fb, #f7fbff);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  font-weight: 800;
+  color: #1b3f79;
+  border: 1px solid #dbe6f0;
+  font-size: 18px;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 8px;
+}
+
+.confirm-btn-modern,
+.negotiation-btn-modern {
+  flex: 1;
+  min-height: 54px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-btn-modern {
+  background: linear-gradient(135deg, #1b3f79, #17325c);
+  color: white;
+  box-shadow: 0 12px 22px rgba(27, 63, 121, 0.22);
+}
+
+.confirm-btn-modern:hover {
+  transform: translateY(-2px);
+}
+
+.negotiation-btn-modern {
+  background: linear-gradient(135deg, #2aba75, #1f9e60);
+  color: white;
+  box-shadow: 0 12px 22px rgba(42, 186, 117, 0.2);
+}
+
+.negotiation-btn-modern:hover {
+  transform: translateY(-2px);
+}
+
+.side-chat-container {
+  display: none;
+}
+
+.side-chat-container.show {
+  display: block;
+}
+
+.chat-box {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 26px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 640px;
+  box-shadow: 0 24px 50px rgba(16, 37, 56, 0.14);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(11, 34, 54, 0.06);
+}
+
+.chat-header {
+  background: linear-gradient(135deg, #1b3f79, #17325c);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.chat-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.chat-subtitle {
+  margin-top: 3px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.chat-close {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.chat-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.chat-body {
+  flex: 1;
+  padding: 18px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background:
+    linear-gradient(rgba(248, 250, 252, 0.94), rgba(248, 250, 252, 0.94)),
+    url("../Photo/truck.jpg") center/cover no-repeat;
+}
+
+.chat-day-label {
+  align-self: center;
+  background: rgba(11, 34, 54, 0.08);
+  color: #44576a;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 12px;
+  border-radius: 999px;
+  margin-bottom: 2px;
+}
+
+.chat-message {
+  max-width: 82%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chat-bubble {
+  padding: 12px 14px;
+  border-radius: 16px;
+  line-height: 1.55;
+  font-size: 14px;
+  word-break: break-word;
+  box-shadow: 0 8px 16px rgba(16, 37, 56, 0.06);
+}
+
+.chat-message.sent {
+  align-self: flex-end;
+}
+
+.chat-message.sent .chat-bubble {
+  background: linear-gradient(135deg, #1b3f79, #204d94);
+  color: white;
+  border-bottom-right-radius: 6px;
+}
+
+.chat-message.received {
+  align-self: flex-start;
+}
+
+.chat-message.received .chat-bubble {
+  background: #ffffff;
+  color: #102538;
+  border: 1px solid rgba(11, 34, 54, 0.06);
+  border-bottom-left-radius: 6px;
+}
+
+.chat-meta {
+  font-size: 11px;
+  color: #738292;
+  padding: 0 4px;
+}
+
+.chat-message.sent .chat-meta {
+  text-align: right;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid #edf1f5;
+  background: #fff;
+}
+
+.chat-input-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.chat-input-area input {
+  width: 100%;
+  height: 50px;
+  padding: 0 44px 0 14px;
+  border: 1px solid #d8e0e8;
+  border-radius: 14px;
+  outline: none;
+  font-size: 14px;
+}
+
+.chat-input-area input:focus {
+  border-color: #1b3f79;
+  box-shadow: 0 0 0 4px rgba(27, 63, 121, 0.08);
+}
+
+.chat-input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #7b8b98;
+  pointer-events: none;
+}
+
+.chat-input-area button {
+  min-width: 96px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1b3f79, #17325c);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0 18px;
+  transition: 0.2s ease;
+}
+
+.chat-input-area button:hover {
+  transform: translateY(-1px);
+}
+
+.popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 35, 60, 0.45);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.popup-box-modern {
+  background: #ffffff;
+  width: min(420px, 100%);
+  border-radius: 24px;
+  padding: 30px 28px 26px;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+  animation: popupScale 0.3s ease;
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(42, 186, 117, 0.12);
+  color: #20a464;
+  font-size: 34px;
+}
+
+.popup-box-modern h2 {
+  margin-bottom: 18px;
+  color: #102538;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.booking-summary {
+  background: #f8fafc;
+  border: 1px solid rgba(11, 34, 54, 0.06);
+  border-radius: 18px;
+  padding: 16px 18px;
+  text-align: left;
+}
+
+.booking-summary p {
+  margin: 8px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  color: #33485a;
+}
+
+.booking-summary p span {
+  font-weight: 800;
+  color: #102538;
+}
+
+#popupStatus.status {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+#popupStatus.pending {
+  background: rgba(243, 156, 18, 0.12);
+  color: #c57b00;
+}
+
+.popup-actions {
+  margin-top: 22px;
+}
+
+.btn-primary {
+  width: 100%;
+  min-height: 50px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1b3f79, #17325c);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 12px 22px rgba(27, 63, 121, 0.2);
+  transition: 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+.action-error-message {
+  min-height: 22px;
+  margin-top: 12px;
+  color: #d12b2b;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.confirm-btn-modern.disabled,
+.negotiation-btn-modern.disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.08);
+}
+.chat-day-label.info-hint,
+#chatPendingHint {
+  background: rgba(27, 63, 121, 0.08);
+  color: #35516b;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 999px;
+  align-self: center;
+  text-align: center;
+  max-width: 88%;
+}
+@media (max-width: 980px) {
+  .confirm-main {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-box {
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 640px) {
+  .confirm-page {
+    padding: 18px 14px 28px;
+  }
+
+  .confirm-container {
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .confirm-title {
+    font-size: 26px;
+  }
+
+  .booking-summary-card {
+    grid-template-columns: 1fr;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+  }
+
+  .input-group {
+    flex-direction: row;
+  }
+}

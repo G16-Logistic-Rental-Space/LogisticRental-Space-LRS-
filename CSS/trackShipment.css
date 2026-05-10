@@ -1,0 +1,521 @@
+:root {
+  --main-blue: #11426b;
+  --dark-blue: #0b2236;
+  --light-blue: #d7f5ff;
+  --mint: #43e7d4;
+  --mint-light: #8affda;
+  --orange: #f97316;
+
+  --bg: #efe7e4;
+  --sidebar: #0f3a56;
+  --accent: #19c3a6;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --text: #0b2233;
+  --stroke: rgba(15, 58, 86, 0.12);
+  --shadow: 0 12px 30px rgba(15, 58, 86, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: "Inter", Arial, sans-serif;
+}
+
+body {
+  background: url("../Photo/truck.jpg") center/cover no-repeat fixed;
+  position: relative;
+  min-height: 100vh;
+  color: var(--text);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.45);
+  z-index: -1;
+}
+
+.tracking-page-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.page-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.tracking-main {
+  padding: 20px 28px 34px 20px;
+  min-height: 100vh;
+}
+
+.tracking-header {
+  background: linear-gradient(
+    135deg,
+    rgba(95, 134, 171, 0.9),
+    rgba(91, 130, 167, 0.95)
+  );
+  border-radius: 28px;
+  padding: 28px 30px;
+  box-shadow: 0 16px 36px rgba(15, 58, 86, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  margin-bottom: 22px;
+}
+
+.tracking-header-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tracking-header-copy h1 {
+  margin: 14px 0 8px;
+  color: #0b2236;
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.tracking-header-copy p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 700px;
+}
+
+.tracking-layout {
+  display: grid;
+  grid-template-columns: minmax(420px, 520px) minmax(520px, 1fr);
+  gap: 20px;
+  align-items: stretch;
+}
+
+.tracking-left,
+.tracking-right {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tracking-topbar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.stats-card {
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 58, 86, 0.1);
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 24px rgba(15, 58, 86, 0.05);
+}
+
+.stats-label {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.stats-card strong {
+  font-size: 30px;
+  color: #0b2236;
+  font-weight: 800;
+}
+
+.shipments-panel,
+.map-panel {
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid var(--stroke);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.panel-head {
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(15, 58, 86, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.panel-title {
+  margin: 0;
+  font-size: 24px;
+  color: #0b2236;
+  font-weight: 800;
+}
+
+.panel-subtitle {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.shipments-list {
+  padding: 16px;
+  max-height: 620px;
+  overflow-y: auto;
+}
+
+#shipmentsEmpty,
+#deliveredEmpty {
+  color: #44576a;
+  font-size: 14px;
+}
+
+.shipment-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 10px 24px rgba(15, 58, 86, 0.06);
+  transition: 0.25s ease;
+  cursor: pointer;
+  border: 1px solid rgba(15, 58, 86, 0.08);
+}
+
+.shipment-card:last-child {
+  margin-bottom: 0;
+}
+
+.shipment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px rgba(15, 58, 86, 0.12);
+}
+
+.shipment-card.active-card {
+  border: 1px solid rgba(25, 195, 166, 0.45);
+  box-shadow: 0 0 0 4px rgba(25, 195, 166, 0.08);
+}
+
+.shipment-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.shipment-id-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 9px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 58, 86, 0.08);
+}
+
+.shipment-id-box i {
+  font-size: 16px;
+  color: #0f3a56;
+}
+
+.shipment-id {
+  font-weight: 700;
+  color: #0f3a56;
+  font-size: 15px;
+}
+
+.shipment-owner {
+  text-align: center;
+  font-weight: 700;
+  font-size: 15px;
+  color: #0f3a56;
+}
+
+.status-badge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.status-badge.done {
+  background: #d4f4dd;
+  color: #00b16a;
+}
+
+.status-badge.transit {
+  background: #e6deff;
+  color: #5b3df5;
+}
+
+.status-badge.pending {
+  background: #ffe7b8;
+  color: #d97706;
+}
+
+.route-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: center;
+}
+
+.shipment-route {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.route-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 30px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d8d8d8;
+  border: 2px solid #a9a9a9;
+}
+
+.dot.active {
+  background: #00b16a;
+  border-color: #00b16a;
+}
+
+.route-line {
+  width: 2px;
+  height: 24px;
+  background: #dcdcdc;
+}
+
+.route-line.active {
+  background: #00b16a;
+}
+
+.route-icon {
+  font-size: 18px;
+  color: #00b16a;
+  background: #dff7e7;
+  padding: 7px;
+  border-radius: 50%;
+}
+
+.route-addresses {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.route-from,
+.route-to {
+  font-size: 14px;
+  color: #2f3e4c;
+  line-height: 1.5;
+}
+
+.route-from {
+  font-weight: 600;
+}
+
+.route-to {
+  color: #5e6d7d;
+}
+
+.route-side-info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #243746;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.info-item strong {
+  color: #23384a;
+}
+
+.distance-icon {
+  color: #13a58b;
+  font-size: 18px;
+}
+
+.time-icon {
+  color: #7c4dff;
+  font-size: 18px;
+}
+
+.distance-text,
+.eta-text {
+  color: #4a5d6f;
+}
+
+.map-panel {
+  height: 100%;
+}
+
+.map-head {
+  border-bottom: 1px solid rgba(15, 58, 86, 0.08);
+}
+
+.map-container {
+  height: 100%;
+  min-height: 720px;
+  background: #fff;
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+}
+
+.shipments-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.shipments-list::-webkit-scrollbar-thumb {
+  background: rgba(15, 58, 86, 0.18);
+  border-radius: 999px;
+}
+
+.shipments-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.rated-badge {
+  color: green;
+  font-weight: bold;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.rate-btn {
+  background: #0f3a56;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.rate-btn:hover {
+  background: #11426b;
+  transform: scale(1.05);
+}
+
+.rate-btn:active {
+  transform: scale(0.98);
+}
+
+.stars {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+@media (max-width: 1180px) {
+  .tracking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-container {
+    min-height: 460px;
+  }
+}
+
+@media (max-width: 860px) {
+  .tracking-page-shell {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+
+  .nav {
+    height: auto;
+  }
+
+  .tracking-main {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 760px) {
+  .shipment-header {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .shipment-owner {
+    text-align: left;
+  }
+
+  .route-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .tracking-header-copy h1 {
+    font-size: 28px;
+  }
+
+  .panel-title {
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 640px) {
+  .tracking-main {
+    padding: 14px;
+  }
+
+  .tracking-header {
+    padding: 22px 18px;
+    border-radius: 22px;
+  }
+
+  .shipments-panel,
+  .map-panel {
+    border-radius: 18px;
+  }
+
+  .map-container {
+    min-height: 380px;
+    border-radius: 0 0 18px 18px;
+  }
+
+  .shipment-card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+}

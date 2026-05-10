@@ -79,12 +79,10 @@ document.addEventListener("DOMContentLoaded", () => {
       current_used_volume: document.getElementById("current_used_volume").value,
       current_used_weight: document.getElementById("current_used_weight").value,
       accepted_goods: Array.from(
-        document.querySelectorAll(".dropdown-content input:checked")
+        document.querySelectorAll(".dropdown-content input:checked"),
       ).map((cb) => cb.value),
       restrictions: document.getElementById("restrictions").value.trim(),
-      price_per_m3: document.getElementById("price_per_m3").value,
-      price_per_kg: document.getElementById("price_per_kg").value,
-      price_per_km: document.getElementById("price_per_km").value,
+      price: document.getElementById("price").value,
       pickup_location: document.getElementById("pickup_location").value.trim(),
       dropoff_location: document
         .getElementById("dropoff_location")
@@ -110,9 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
       "max_weight",
       "current_used_volume",
       "current_used_weight",
-      "price_per_m3",
-      "price_per_kg",
-      "price_per_km",
+      "price",
       "pickup_location",
       "dropoff_location",
       "district",
@@ -142,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!lettersOnly.test(value)) {
         showFieldError(
           field,
-          `${field.replace(/_/g, " ")} must contain letters only`
+          `${field.replace(/_/g, " ")} must contain letters only`,
         );
         valid = false;
       } else {
@@ -153,14 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (truckData.accepted_goods.length === 0) {
       showFieldError(
         "accepted_goods",
-        "Select at least one type of accepted goods"
+        "Select at least one type of accepted goods",
       );
       valid = false;
     }
     const numericFields = [
-      "price_per_m3",
-      "price_per_kg",
-      "price_per_km",
+      "price",
       "length",
       "width",
       "height",
@@ -177,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (Number.isNaN(value) || value <= 0) {
         showFieldError(
           field,
-          `${field.replace(/_/g, " ")} must be a positive number`
+          `${field.replace(/_/g, " ")} must be a positive number`,
         );
         valid = false;
       } else {
@@ -191,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (usedVol > maxVol) {
       showFieldError(
         "current_used_volume",
-        "Current used volume cannot be greater than maximum volume"
+        "Current used volume cannot be greater than maximum volume",
       );
       valid = false;
     }
@@ -199,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (usedWeight > maxWeight) {
       showFieldError(
         "current_used_weight",
-        "Current used weight cannot be greater than maximum weight"
+        "Current used weight cannot be greater than maximum weight",
       );
       valid = false;
     }
@@ -208,7 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (truckData.final_request_date < today) {
         showFieldError(
           "final_request_date",
-          "Final request date cannot be in the past"
+          "Final request date cannot be in the past",
         );
         valid = false;
       } else {
@@ -218,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (truckData.restrictions.length > 300) {
       showFieldError(
         "restrictions",
-        "Restrictions text too long (max 300 characters)"
+        "Restrictions text too long (max 300 characters)",
       );
       valid = false;
     } else if (truckData.restrictions) {
@@ -237,7 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       if (submitBtn) submitBtn.disabled = true;
-      const res = await fetch("http://localhost:3000/postAd", {
+      const res = await fetch("http://localhost:3001/postAd", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(truckData),
@@ -258,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
           setTimeout(() => {
             formSuccess.style.display = "none";
-          }, 3000);
+          }, 3001);
         }
         form.reset();
         document

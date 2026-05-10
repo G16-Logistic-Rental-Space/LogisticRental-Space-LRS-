@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+
+    <!-- نفس ملفات المشروع -->
+    <link rel="stylesheet" href="../CSS/mainStyle.css" />
+    <link rel="stylesheet" href="../CSS/chat.css" />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+  </head>
+
+  <body class="app-shell notifications-page chat-page">
+    <!-- Sidebar (نفس اللي عندك) -->
+
+    <!-- Main -->
+    <main class="main">
+      <header class="chat-topbar">
+        <div class="chat-left">
+          <button id="backBtn" class="btn btn-ghost">
+            <i class="bi bi-arrow-left"></i> Back
+          </button>
+
+          <div class="chat-peer">
+            <div class="avatar">
+              <i class="bi bi-person"></i>
+            </div>
+            <div>
+              <div class="peer-name" id="peerName">Customer</div>
+              <div class="peer-sub" id="peerSub">Room: —</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-right">
+          <div class="price-pill" id="pricePill">
+            Current offer:
+            <b><span id="offerValue">—</span> SAR</b>
+          </div>
+          <button id="clearBtn" class="btn btn-ghost">
+            <i class="bi bi-trash"></i> Clear
+          </button>
+        </div>
+      </header>
+
+      <section class="chat-layout">
+        <!-- Messages -->
+        <div class="chat-panel">
+          <div class="negotiation-bar" id="negotiationBar">
+            <div class="negotiation-left">
+              <div class="negotiation-label">Latest Offer</div>
+              <div class="negotiation-price" id="negotiationPrice">— SAR</div>
+              <div class="negotiation-meta" id="negotiationMeta">
+                No active offer yet
+              </div>
+            </div>
+
+            <div class="negotiation-right">
+              <span class="negotiation-state waiting" id="negotiationState"
+                >Waiting</span
+              >
+            </div>
+          </div>
+          <div id="messages" class="messages"></div>
+
+          <!-- Composer -->
+          <div class="composer">
+            <div class="offer-box" id="offerBox">
+              <label for="offerInput">Suggest price</label>
+              <div class="offer-input">
+                <input
+                  id="offerInput"
+                  type="number"
+                  min="0"
+                  placeholder="e.g. 700"
+                />
+                <button id="sendOfferBtn" class="btn btn-primary btn-small">
+                  <i class="bi bi-cash-coin"></i> Send Offer
+                </button>
+              </div>
+            </div>
+
+            <div class="msg-box">
+              <textarea
+                id="textInput"
+                rows="1"
+                placeholder="Write a message..."
+              ></textarea>
+              <button id="sendBtn" class="btn btn-primary">
+                <i class="bi bi-send"></i> Send
+              </button>
+            </div>
+
+            <div class="quick-actions" id="quickActions">
+              <button id="acceptBtn" class="btn btn-primary btn-small">
+                <i class="bi bi-check2-circle"></i> Accept Offer
+              </button>
+              <button id="rejectBtn" class="btn btn-danger btn-small">
+                <i class="bi bi-x-circle"></i> Reject Offer
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="typingIndicator"
+          class="typing-indicator"
+          style="display: none"
+        >
+          The other party is typing...
+        </div>
+
+        <!-- Deal Summary -->
+        <aside class="deal-panel" id="dealPanel">
+          <div class="deal-card">
+            <div class="deal-title">Deal summary</div>
+            <div class="deal-row">
+              <span>Customer</span><b id="summaryCustomer">—</b>
+            </div>
+            <div class="deal-row">
+              <span>Ad ID</span><b id="summaryAd">—</b>
+            </div>
+            <div class="deal-row">
+              <span>Room</span><b id="summaryRoom">—</b>
+            </div>
+            <div class="deal-row">
+              <span>Status</span
+              ><b id="summaryStatus" class="status pending">Pending</b>
+            </div>
+
+            <div class="deal-hint">
+              Use this chat for questions and booking communication.
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="../JavaScript/chat.js"></script>
+    <div id="toastMessage" class="toast-message"></div>
+  </body>
+</html>

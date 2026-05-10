@@ -1,38 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="../CSS/mainStyle.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
-<body>
-  <div class="container">
-    <div class="LoginCard">
-      <h1 class="login">Login</h1>
-      <i class="bi bi-person-circle"></i>
-      <form onsubmit="loginUser(event)">
-        <label for="username">username</label>
-        <input id="username" type="text" placeholder="Username" class="input-box"><br>
-        <div id="usernameError" class="error-message"></div>
-      <label for="password">password</label>
-        <input id="password" type="password" placeholder="Password" class="input-box"><br>
-        <div id="passwordError" class="error-message"></div>
+    <link rel="stylesheet" href="/CSS/loginStyle.css" />
+  </head>
 
-        <div id="loginSuccess" class="success-message"></div>
+  <body>
+    <div class="login-shell">
+      <section class="login-showcase">
+        <div class="showcase-overlay"></div>
 
-        <button type="submit" class="btn" id="logBtn">Login</button>
-      </form>
+        <div class="showcase-content">
+          <div class="brand">
+            <div class="brand-logo">
+              <i class="bi bi-box-seam-fill"></i>
+            </div>
 
-      <div class="RegisterLink">
-        <p>Don't have an account? <a href="signup.html">Register</a></p>
-      </div>
+            <div class="brand-text-main">LRS</div>
+            <span class="brand-divider"></span>
+            <div class="brand-text-sub">Truck Space Rental</div>
+          </div>
+
+          <div class="showcase-copy">
+            <span class="side-pill">
+              <i class="bi bi-shield-lock"></i>
+              Welcome back
+            </span>
+
+            <h1>
+              Access your transport
+              <span>platform</span>
+              in one place
+            </h1>
+
+            <p>
+              Sign in to manage bookings, monitor requests, and stay updated
+              with your latest shipment activity.
+            </p>
+
+            <div class="showcase-points">
+              <div class="point-item">
+                <i class="bi bi-check2"></i>
+                <span>Track notifications and requests</span>
+              </div>
+
+              <div class="point-item">
+                <i class="bi bi-check2"></i>
+                <span>Open chats and continue negotiations</span>
+              </div>
+
+              <div class="point-item">
+                <i class="bi bi-check2"></i>
+                <span>Manage listings and bookings</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="login-panel">
+        <div class="login-panel-inner">
+          <div class="card-head">
+            <h2>Log in to your account</h2>
+            <p class="panel-subtitle">
+              Access your dashboard and manage your shipments.
+            </p>
+          </div>
+
+          <form class="login-form" onsubmit="loginUser(event)">
+            <div class="field-group">
+              <label for="username">Username</label>
+              <div class="input-wrap">
+                <i class="bi bi-person-fill input-icon"></i>
+                <input
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  class="input-box"
+                />
+              </div>
+              <div id="usernameError" class="error-message"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="password">Password</label>
+              <div class="input-wrap">
+                <i class="bi bi-lock-fill input-icon"></i>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  class="input-box"
+                />
+                <button
+                  type="button"
+                  class="toggle-password"
+                  onclick="togglePassword()"
+                  aria-label="Toggle password visibility"
+                >
+                  <i class="bi bi-eye-slash"></i>
+                </button>
+              </div>
+              <div id="passwordError" class="error-message"></div>
+            </div>
+
+            <div id="loginSuccess" class="success-message"></div>
+
+            <button type="submit" class="btn-login" id="logBtn">
+              <span>Log In</span>
+              <i class="bi bi-arrow-right"></i>
+            </button>
+          </form>
+
+          <div class="register-link">
+            <p>
+              New to LRS?
+              <a href="/HTML/signup.html">Create an account</a>
+            </p>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
-<script src="../JavaScript/User.js"></script>
-<script src="../JavaScript/loginValidation.js"></script>
-</body>
+
+    <script>
+      function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const icon = document.querySelector(".toggle-password i");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          icon.className = "bi bi-eye";
+        } else {
+          passwordInput.type = "password";
+          icon.className = "bi bi-eye-slash";
+        }
+      }
+    </script>
+
+    <script src="../JavaScript/User.js"></script>
+    <script src="../JavaScript/loginValidation.js"></script>
+  </body>
 </html>

@@ -1,179 +1,474 @@
-class Booking {
-  selectedAd = null;
-  bookingInfo = null;
-  rentedCapacityInput = document.getElementById("rentedCapacity");
-  rentedCapacityError = document.getElementById("rentedCapacityError");
-  unusedCapacity = 0;
-  capacityUnit = "";
-  distance = 0;
-  priceKm = 0;
-  priceKg = 0;
-  priceM3 = 0;
-  currentPrice = 0;
+const socket = io("http://localhost:3001");
+let currentRoom = null;
+let selectedAd = null;
+let chatReady = false;
 
-  
-  constructor() {
-    window.addEventListener("load", () => this.loadSelectedAd());
+window.addEventListener("load", () => {
+  loadSelectedAd();
+  setActionButtonsState();
+
+  const input = document.getElementById("chatMessageInput");
+  if (input) {
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  }
+});
+
+function goBackToAdvertising() {
+  window.location.href = "/HTML/advertising.html";
+}
+
+function joinNegotiationRoom(roomCode) {
+  if (!roomCode) return;
+  currentRoom = roomCode;
+  chatReady = true;
+
+  const userId = Number(localStorage.getItem("user_id")) || 0;
+
+  socket.emit("join_room", {
+    roomCode,
+    userId,
+  });
+}
+
+function showConfirmationPopup(finalPrice) {
+  const truck = selectedAd?.truck_type || "---";
+  const date = new Date().toISOString().slice(0, 10);
+  const route = `${selectedAd?.pickup_location || "---"} → ${selectedAd?.dropoff_location || "---"}`;
+
+  document.getElementById("popupTruck").textContent = truck;
+  document.getElementById("popupDate").textContent = date;
+  document.getElementById("popupRoute").textContent = route;
+  document.getElementById("popupPrice").textContent = `SAR ${finalPrice}`;
+  document.getElementById("popupStatus").textContent = "Pending";
+
+  document.getElementById("confirmationPopup").style.display = "flex";
+}
+
+function getBookingPayload() {
+  const rentedVal = Number(localStorage.getItem("booked_capacity"));
+  const finalPrice = Number(localStorage.getItem("calculated_price"));
+
+  return {
+    customer_id: localStorage.getItem("user_id"),
+    truck_ad_id: localStorage.getItem("selected_ad_id"),
+    weight_requested: rentedVal,
+    price: finalPrice,
+    trip_date: new Date().toISOString().slice(0, 10),
+    capacityUnit: localStorage.getItem("capacityUnit"),
+    pickup_location: selectedAd?.pickup_location || null,
+    dropoff_location: selectedAd?.dropoff_location || null,
+  };
+}
+
+async function ensureBookingRoom() {
+  const storedRoom = localStorage.getItem("booking_room_code");
+  const storedBookingId = localStorage.getItem("booking_id");
+  const storedAdId = localStorage.getItem("booking_room_ad_id");
+  const currentAdId = String(localStorage.getItem("selected_ad_id") || "");
+
+  if (storedRoom && storedAdId === currentAdId) {
+    currentRoom = storedRoom;
+    chatReady = true;
+    joinNegotiationRoom(storedRoom);
+    return {
+      success: true,
+      room_code: storedRoom,
+      booking_id: storedBookingId || "",
+      reused: true,
+    };
   }
 
-  loadSelectedAd() {
-    const adId = localStorage.getItem("selected_ad_id");
-    if (!adId) return alert("No selected ad");
+  const payload = getBookingPayload();
 
-    fetch(`http://localhost:3000/getAd/${adId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!data.success) return;
+  const res = await fetch("http://localhost:3001/book", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 
-        this.selectedAd = data.ad;
+  const result = await res.json();
 
-        this.calculateUnusedCapacity();
-        this.updateCapacityUI();
-        this.setupPricing();
-        this.updatePrice();
-
-        this.rentedCapacityInput.addEventListener("input", () =>
-          this.updatePrice()
-        );
-        this.renderRouteInfo();
-      });
+  if (!result.success || !result.room_code) {
+    return result;
   }
 
-  calculateUnusedCapacity() {
-    const ad = this.selectedAd;
+  currentRoom = result.room_code;
+  chatReady = true;
 
-    const maxWeight = Number(ad.max_weight) || 0;
-    const maxVolume = Number(ad.max_volume) || 0;
-    const usedWeight = Number(ad.current_used_weight) || 0;
-    const usedVolume = Number(ad.current_used_volume) || 0;
+  localStorage.setItem("booking_room_code", result.room_code);
+  localStorage.setItem("booking_id", result.booking_id || "");
+  localStorage.setItem("booking_room_ad_id", currentAdId);
 
-    if (maxVolume <= maxWeight) {
-      this.unusedCapacity = maxVolume - usedVolume;
-      this.capacityUnit = "m³";
-    } else {
-      this.unusedCapacity = maxWeight - usedWeight;
-      this.capacityUnit = "kg";
-    }
+  joinNegotiationRoom(result.room_code);
 
-    if (this.unusedCapacity < 0) this.unusedCapacity = 0;
+  return result;
+}
 
-    localStorage.setItem("capacityUnit", this.capacityUnit);
+function loadSelectedAd() {
+  const adId = localStorage.getItem("selected_ad_id");
+  if (!adId) {
+    alert("No selected ad found.");
+    return;
   }
 
-  updateCapacityUI() {
-    document.getElementById(
-      "rentedCapacityTitle"
-    ).textContent = `Rented capacity (${this.capacityUnit})`;
+  localStorage.removeItem("calculated_price");
+  localStorage.removeItem("booked_capacity");
+  localStorage.removeItem("capacityUnit");
+  localStorage.removeItem("capacityUnitLabel");
+  localStorage.removeItem("booking_room_code");
+  localStorage.removeItem("booking_id");
+  localStorage.removeItem("booking_room_ad_id");
 
-    this.rentedCapacityInput.value = this.unusedCapacity;
-    this.rentedCapacityInput.max = this.unusedCapacity;
+  fetch(`http://localhost:3001/getAd/${adId}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.success || !data.ad) {
+        alert("Ad not found.");
+        return;
+      }
+
+      selectedAd = data.ad;
+
+      document.getElementById("displayAdName").textContent =
+        selectedAd.truck_type || "Confirm Booking";
+
+      document.getElementById("bookingRoute").textContent =
+        `${selectedAd.pickup_location || "---"} → ${selectedAd.dropoff_location || "---"}`;
+
+      document.getElementById("bookingTruckId").textContent =
+        selectedAd.truck_id || "---";
+
+      document.getElementById("bookingBasePrice").textContent =
+        `SAR ${Number(selectedAd.price) || 0}`;
+
+      const maxW = Number(selectedAd.max_weight) || 0;
+      const maxV = Number(selectedAd.max_volume) || 0;
+      const usedW = Number(selectedAd.current_used_weight) || 0;
+      const usedV = Number(selectedAd.current_used_volume) || 0;
+
+      const remainingWeight = Math.max(maxW - usedW, 0);
+      const remainingVolume = Math.max(maxV - usedV, 0);
+
+      let unusedCapacity = 0;
+      let unitLabel = "kg";
+      let unitValue = "weight";
+
+      if (remainingVolume <= remainingWeight) {
+        unusedCapacity = remainingVolume;
+        unitLabel = "m³";
+        unitValue = "volume";
+      } else {
+        unusedCapacity = remainingWeight;
+        unitLabel = "kg";
+        unitValue = "weight";
+      }
+
+      localStorage.setItem("capacityUnit", unitValue);
+      localStorage.setItem("capacityUnitLabel", unitLabel);
+
+      document.getElementById("rentedCapacityTitle").textContent =
+        `Required Capacity (${unitLabel})`;
+
+      document.getElementById("availableCapacity").textContent =
+        `${unusedCapacity} ${unitLabel}`;
+
+      const input = document.getElementById("rentedCapacity");
+      input.value = "";
+      input.max = unusedCapacity;
+      input.placeholder = `Max: ${unusedCapacity} ${unitLabel}`;
+
+      document.getElementById("finalPrice").textContent = `SAR 0`;
+      setActionButtonsState();
+    })
+    .catch((err) => {
+      console.error("Fetch booking error:", err);
+      alert("Server connection error");
+    });
+}
+
+function updatePrice() {
+  if (!selectedAd) return;
+
+  const input = document.getElementById("rentedCapacity");
+  const errorBox = document.getElementById("rentedCapacityError");
+  const rentedVal = Number(input.value);
+  const unitLabel = localStorage.getItem("capacityUnitLabel") || "kg";
+
+  errorBox.textContent = "";
+
+  const maxAllowed = Number(input.max);
+
+  if (!rentedVal || rentedVal <= 0) {
+    errorBox.textContent = "Please enter a valid capacity.";
+    document.getElementById("finalPrice").textContent = `SAR 0`;
+    localStorage.removeItem("calculated_price");
+    localStorage.removeItem("booked_capacity");
+    setActionButtonsState();
+    return;
   }
 
-  setupPricing() {
-    const ad = this.selectedAd;
-
-    this.distance = Number(localStorage.getItem("selected_distance")) || 150;
-    this.priceKm =
-      Number(localStorage.getItem("price_per_km")) || ad.price_per_km || 0;
-    this.priceKg =
-      Number(localStorage.getItem("price_per_kg")) || ad.price_per_kg || 0;
-    this.priceM3 =
-      Number(localStorage.getItem("price_per_m3")) || ad.price_per_m3 || 0;
+  if (rentedVal > maxAllowed) {
+    errorBox.textContent = `Requested capacity exceeds available space (${maxAllowed} ${unitLabel}).`;
+    input.value = maxAllowed;
+    document.getElementById("finalPrice").textContent = `SAR 0`;
+    localStorage.removeItem("calculated_price");
+    localStorage.removeItem("booked_capacity");
+    setActionButtonsState();
+    return;
   }
 
-  updatePrice() {
-    let rentedCapacity = Number(this.rentedCapacityInput.value) || 0;
+  const baseFlatPrice = Number(selectedAd.price) || 0;
 
-    if (rentedCapacity < 0) rentedCapacity = 0;
-    if (rentedCapacity > this.unusedCapacity)
-      rentedCapacity = this.unusedCapacity;
+     
+const totalCapacity =
+  (Number(selectedAd.max_weight) || 0) ||
+  (Number(selectedAd.max_volume) || 0);
 
-    this.rentedCapacityInput.value = rentedCapacity;
+let total = baseFlatPrice;
 
-    let price = this.distance * this.priceKm;
+if (totalCapacity > 0 && rentedVal < totalCapacity) {
+  total = Math.round((rentedVal / totalCapacity) * baseFlatPrice * 100) / 100;
+}
 
-    if (this.capacityUnit === "kg") price += rentedCapacity * this.priceKg;
-    else price += rentedCapacity * this.priceM3;
+  document.getElementById("finalPrice").textContent = `SAR ${total}`;
 
-    this.currentPrice = price;
+  localStorage.setItem("calculated_price", total);
+  localStorage.setItem("booked_capacity", rentedVal);
+  setActionButtonsState();
+}
 
-    document.getElementById("finalPrice").textContent =
-      "SAR " + Math.round(price);
-    localStorage.setItem("calculated_price", price);
+async function openChat() {
+  const customerId = localStorage.getItem("user_id");
+  const truckAdId = localStorage.getItem("selected_ad_id");
+
+  if (!customerId || !truckAdId) {
+    showActionError("Missing user or ad information.");
+    return;
   }
 
-  renderRouteInfo() {
-    const ad = this.selectedAd;
-
-    document.getElementById(
-      "route"
-    ).textContent = `${ad.pickup_location} → ${ad.dropoff_location}`;
-
-    document.getElementById("distance").textContent = this.distance + " km";
-
-    document.getElementById("estimatedTime").textContent =
-      Math.round(this.distance / 100) + " hrs";
+  if (!isPriceCalculated()) {
+    showActionError("Please calculate the price first.");
+    return;
   }
 
-  submitBooking() {
-    const rentedValue = Number(this.rentedCapacityInput.value);
+  const chatOverlay = document.getElementById("chatOverlay");
+  const chatBody = document.getElementById("chatBody");
+  const input = document.getElementById("chatMessageInput");
 
-    this.rentedCapacityError.style.display = "none";
-    this.rentedCapacityInput.classList.remove("input-error");
+  if (chatOverlay) chatOverlay.classList.add("show");
 
-    if (rentedValue === 0) {
-      this.rentedCapacityError.innerHTML = `<i class="bi bi-exclamation-circle"></i> Capacity cannot be 0`;
-      this.rentedCapacityError.style.display = "block";
-      this.rentedCapacityInput.classList.add("input-error");
+  if (chatBody && !chatBody.dataset.initialized) {
+    chatBody.innerHTML = `<div class="chat-day-label">Today</div>`;
+    chatBody.dataset.initialized = "true";
+  }
+
+  if (input) input.focus();
+
+  try {
+    const result = await ensureBookingRoom();
+
+    if (!result.success || !result.room_code) {
+      showActionError(result.message || "Failed to open chat.");
       return;
     }
 
-    const ad = this.selectedAd;
-
-    this.bookingInfo = {
-      customer_id: localStorage.getItem("user_id"),
-      truck_ad_id: localStorage.getItem("selected_ad_id"),
-      weight_requested: rentedValue,
-      price: this.currentPrice,
-      pickup_location: ad.pickup_location,
-      dropoff_location: ad.dropoff_location,
-      route_distance: this.distance,
-      trip_date: new Date().toISOString().slice(0, 10),
-      capacityUnit: this.capacityUnit,
-    };
-
-    fetch("http://localhost:3000/book", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(this.bookingInfo),
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success) {
-          this.showPopup();
-        } else {
-          alert("Booking failed");
-        }
-      });
-  }
-
-  showPopup() {
-    const ad = this.selectedAd;
-
-    document.getElementById("popupTruck").textContent = ad.truck_type;
-    document.getElementById("popupDate").textContent =
-      this.bookingInfo.trip_date;
-    document.getElementById(
-      "popupRoute"
-    ).textContent = `${ad.pickup_location} → ${ad.dropoff_location}`;
-    document.getElementById("popupPrice").textContent =
-      "SAR " + Math.round(this.currentPrice);
-    document.getElementById("popupStatus").textContent =
-      "Pending Supplier Approval";
-
-    document.getElementById("confirmationPopup").style.display = "flex";
+    loadChatHistory(result.room_code);
+  } catch (err) {
+    console.error("Open chat error:", err);
+    showActionError("Server connection error while opening chat.");
   }
 }
 
-const booking = new Booking();
-window.submitBooking = () => booking.submitBooking();
+function showActionError(message) {
+  const errorBox = document.getElementById("bookingActionError");
+  if (!errorBox) return;
+
+  errorBox.textContent = message;
+
+  setTimeout(() => {
+    errorBox.textContent = "";
+  }, 3000);
+}
+
+function isPriceCalculated() {
+  const calculatedPrice = Number(localStorage.getItem("calculated_price"));
+  const bookedCapacity = Number(localStorage.getItem("booked_capacity"));
+  return calculatedPrice > 0 && bookedCapacity > 0;
+}
+
+function setActionButtonsState() {
+  const confirmBtn = document.querySelector(".confirm-btn-modern");
+  const negotiationBtn = document.querySelector(".negotiation-btn-modern");
+
+  if (!confirmBtn || !negotiationBtn) return;
+
+  if (isPriceCalculated()) {
+    confirmBtn.classList.remove("disabled");
+    negotiationBtn.classList.remove("disabled");
+  } else {
+    confirmBtn.classList.add("disabled");
+    negotiationBtn.classList.add("disabled");
+  }
+}
+
+function closeChat() {
+  document.getElementById("chatOverlay").classList.remove("show");
+}
+
+function sendMessage() {
+  const input = document.getElementById("chatMessageInput");
+  const messageText = input.value.trim();
+  const senderId = localStorage.getItem("user_id");
+
+  if (!messageText) return;
+
+  if (!chatReady || !currentRoom) {
+    showActionError("Please wait a moment until the chat room is ready.");
+    return;
+  }
+
+  if (!senderId) {
+    showActionError("Please log in first.");
+    return;
+  }
+
+  const payload = {
+    roomCode: currentRoom,
+    senderId: Number(senderId),
+    text: messageText,
+    messageType: "text",
+  };
+
+  socket.emit("send_message", payload);
+
+  appendMessage(
+    {
+      message_text: messageText,
+      sender_id: Number(senderId),
+    },
+    "sent",
+  );
+
+  input.value = "";
+}
+
+socket.off("receive_message");
+socket.on("receive_message", (data) => {
+  const senderId = Number(localStorage.getItem("user_id"));
+
+  if (data.room_code && currentRoom && data.room_code !== currentRoom) return;
+  if (Number(data.sender_id) === senderId) return;
+
+  appendMessage(data, "received");
+});
+
+function loadChatHistory(roomCode) {
+  if (!roomCode) return;
+
+  fetch(`http://localhost:3001/api/chat/messages/${encodeURIComponent(roomCode)}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data.success) return;
+
+      const chatBody = document.getElementById("chatBody");
+      if (!chatBody) return;
+
+      chatBody.innerHTML = `<div class="chat-day-label">Today</div>`;
+
+      const currentUserId = Number(localStorage.getItem("user_id"));
+
+      (data.messages || []).forEach((msg) => {
+        const type =
+          Number(msg.sender_id) === currentUserId ? "sent" : "received";
+        appendMessage(msg, type);
+      });
+    })
+    .catch((err) => {
+      console.error("Load chat history error:", err);
+    });
+}
+
+function appendMessage(data, type) {
+  const chatBody = document.getElementById("chatBody");
+  if (!chatBody) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = `chat-message ${type}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "chat-bubble";
+  bubble.textContent = data.message_text || data.text || data.message || "";
+
+  const meta = document.createElement("div");
+  meta.className = "chat-meta";
+
+  let timeText = "";
+  if (data.created_at) {
+    const d = new Date(data.created_at);
+    timeText = Number.isNaN(d.getTime())
+      ? ""
+      : d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  } else {
+    const now = new Date();
+    timeText = now.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  meta.textContent =
+    type === "sent" ? `You • ${timeText}` : `Owner • ${timeText}`;
+
+  wrapper.appendChild(bubble);
+  wrapper.appendChild(meta);
+
+  chatBody.appendChild(wrapper);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+async function submitBooking() {
+  const rentedVal = Number(localStorage.getItem("booked_capacity"));
+  const finalPrice = Number(localStorage.getItem("calculated_price"));
+
+  if (!rentedVal || rentedVal <= 0) {
+    alert("Please calculate the price before confirming.");
+    return;
+  }
+
+  if (!isPriceCalculated()) {
+    showActionError("Please calculate the price first.");
+    return;
+  }
+
+  try {
+    const existingRoom = localStorage.getItem("booking_room_code");
+    const existingAdId = localStorage.getItem("booking_room_ad_id");
+    const currentAdId = String(localStorage.getItem("selected_ad_id") || "");
+
+    if (existingRoom && existingAdId === currentAdId) {
+      currentRoom = existingRoom;
+      chatReady = true;
+      joinNegotiationRoom(existingRoom);
+      showConfirmationPopup(finalPrice);
+      return;
+    }
+
+    const result = await ensureBookingRoom();
+
+    if (!result.success) {
+      alert(result.message || "Booking failed.");
+      console.error("Booking response:", result);
+      return;
+    }
+
+    showConfirmationPopup(finalPrice);
+  } catch (err) {
+    console.error("Booking request error:", err);
+    alert("Server connection error while booking.");
+  }
+}

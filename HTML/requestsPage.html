@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Requests Page</title>
+
+    <link rel="stylesheet" href="/CSS/shared-sidebar.css" />
+    <link rel="stylesheet" href="/CSS/reqStyle.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="requests-page-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="page-content">
+      <header class="top-header">
+        <div>
+          <h1 class="page-title">Available Shipping Requests</h1>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="role-pill">
+            <i class="bi bi-truck"></i>
+            <span>Truck Owner Panel</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="requests-main">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <span class="hero-pill">
+              <i class="bi bi-clipboard-data"></i>
+              Requests overview
+            </span>
+            <h2>Find the right shipment and send your offer quickly.</h2>
+            <p>
+              Browse incoming customer requests, inspect shipment details, and
+              proceed to send an offer with a cleaner and more modern workflow.
+            </p>
+          </div>
+
+          <div class="hero-stats">
+            <div class="mini-card">
+              <span class="mini-label">Available requests</span>
+              <strong id="requestCount">0</strong>
+            </div>
+
+            <div class="mini-card">
+              <span class="mini-label">Ready to review</span>
+              <strong id="reviewCount">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="toolbar-box requests-toolbar-box">
+          <div class="toolbar-head">
+            <div>
+              <h3 class="toolbar-title">Search & Filter</h3>
+              <p class="toolbar-subtitle">
+                Refine shipping requests by goods type, route, and truck type.
+              </p>
+            </div>
+          </div>
+
+          <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input
+              type="text"
+              id="requestSearch"
+              placeholder="Search by customer, city, route, or goods type..."
+            />
+          </div>
+
+          <div class="ads-filters-row requests-filters-row">
+            <select id="goodsFilter" class="filter-select">
+              <option value="">All Goods</option>
+            </select>
+
+            <select id="pickupFilter" class="filter-select">
+              <option value="">All Pickup Cities</option>
+            </select>
+
+            <select id="dropoffFilter" class="filter-select">
+              <option value="">All Drop-off Cities</option>
+            </select>
+
+            <select id="truckTypeFilter" class="filter-select">
+              <option value="">All Truck Types</option>
+            </select>
+
+            <button id="resetFiltersBtn" class="reset-filters-btn">
+              <i class="bi bi-arrow-counterclockwise"></i>
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <section class="req-container"></section>
+      </section>
+    </main>
+
+    <div class="truck-modal-overlay" id="truckModal">
+      <div class="truck-modal">
+        <button class="truck-modal-close" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+
+        <div class="truck-modal-header">
+          <img src="/Photo/adPic.png" alt="Truck" class="truck-modal-img" />
+          <div class="truck-modal-header-text">
+            <h3 id="modalTitle"></h3>
+            <p id="modalType" class="truck-modal-subtitle"></p>
+          </div>
+        </div>
+
+        <div class="truck-modal-grid">
+          <div class="truck-modal-section">
+            <h4>Shipment Details</h4>
+            <p><strong>Weight:</strong> <span id="modalLoad"></span></p>
+            <p><strong>Volume:</strong> <span id="modalVol"></span></p>
+            <p><strong>Quantity:</strong> <span id="modalQuantity"></span></p>
+            <p>
+              <strong>Packaging:</strong>
+              <span id="modalPackaging_method"></span>
+            </p>
+          </div>
+
+          <div class="truck-modal-section">
+            <h4>Goods & Restrictions</h4>
+            <p id="modalGoods"></p>
+          </div>
+
+          <div class="truck-modal-section">
+            <h4>Availability</h4>
+            <p><strong>Route:</strong> <span id="modalRoute"></span></p>
+          </div>
+
+          <div class="truck-modal-section">
+            <h4>Special Notes</h4>
+            <p id="modalNotes"></p>
+          </div>
+        </div>
+
+        <button
+          class="truck-modal-book"
+          onclick="window.location.href = 'sendOffer.html'"
+        >
+          <i class="bi bi-send-check"></i>
+          Proceed to Send Offer
+        </button>
+      </div>
+    </div>
+
+    <script src="/JavaScript/requests.js"></script>
+    <script src="/JavaScript/shared-sidebar.js"></script>
+
+    <script>
+      renderSharedSidebar({
+        mountId: "sidebar",
+        activePage: "requests",
+      });
+    </script>
+  </body>
+</html>

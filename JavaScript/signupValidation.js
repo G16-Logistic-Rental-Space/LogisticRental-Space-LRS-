@@ -9,12 +9,12 @@ function showFieldError(id, message) {
 
     setTimeout(() => {
       input.classList.remove("input-error");
-    }, 3000);
+    }, 3001);
   }
 
   setTimeout(() => {
     box.style.display = "none";
-  }, 3000);
+  }, 3001);
 }
 function showSignupSuccess(message) {
   const box = document.getElementById("signupSuccess");
@@ -24,7 +24,7 @@ function showSignupSuccess(message) {
 
   setTimeout(() => {
     box.style.display = "none";
-  }, 3000);
+  }, 3001);
 }
 function signupUser(event) {
   event.preventDefault();
@@ -49,14 +49,14 @@ function signupUser(event) {
   if (!usernamePattern.test(username)) {
     return showFieldError(
       "username",
-      "Username must start with a letter, and be 3–20 characters (letters, numbers, _ )"
+      "Username must start with a letter, and be 3–20 characters (letters, numbers, _ )",
     );
   }
 
   if (!passwordPattern.test(password)) {
     return showFieldError(
       "password",
-      "Password must be at least 8 chars and include: uppercase, lowercase, number, and symbol"
+      "Password must be at least 8 chars and include: uppercase, lowercase, number, and symbol",
     );
   }
 
@@ -66,10 +66,10 @@ function signupUser(event) {
   if (!mobilePattern.test(mobile)) {
     return showFieldError(
       "mobile",
-      "Mobile must start with 05 or 9665 and be 10 digits long"
+      "Mobile must start with 05 or 9665 and be 10 digits long",
     );
   }
-  fetch("http://localhost:3000/signup", {
+  fetch("http://localhost:3001/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
